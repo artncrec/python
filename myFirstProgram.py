@@ -1,11 +1,11 @@
 a = [15, 'hello', 15.58, True]
+b = [15, -128, 'hello', False]
 
-print(a)
-print(a[0])
-print(a[2])
-
-a[2] = str(98.55)
-a[2] = int(98.55)
-
-print(a[2])
-print(type(a[2]))
+c = list(zip(a, b))
+d = list(map(list, c))
+e = [15.55555, 0.1111, -9.5]
+f = list(map(round, e))
+print(c)
+print(f)
+print(type(a[3]))
+print(type(b[1]))
