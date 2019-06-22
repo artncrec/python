@@ -1,5 +1,7 @@
 import tkinter
+from tkinter import messagebox
 import os
+import random
 
 IMG_PATH = 'nums'
 SIZE = 4
@@ -21,12 +23,14 @@ for i in range(SIZE):
     for j in range(SIZE):
         x = i * SIZE + j
         _label = tkinter.Label(main_window, image=image_list[x])
+        _label.x = x
         _label.row = i
         _label.column = j
         _label.grid(row=i, column=j)
         labels_list.append(_label)
 
 cur = labels_list[-1]
+
 def upObj(arg):
     return labels_list[(arg.row - 1) * SIZE + arg.column]
 def downObj(arg):
@@ -43,8 +47,10 @@ def itemExchange (near):
     cur.column, near.column = near.column, cur.column
     labels_list[x_cur], labels_list[x_near] = labels_list[x_near], labels_list[x_cur]
     return labels_list[x_cur]
+
 def renderItem(arg):
     arg.grid(row = arg.row, column = arg.column)
+
 def keyPress(arg):
     near = None
     if arg == 'u' and cur.row > 0:
@@ -59,12 +65,26 @@ def keyPress(arg):
         near = itemExchange(near)
         renderItem(cur)
         renderItem(near)
-        print(cur)
-        print(near)
+        for lab in labels_list:
+            check = lab.row * SIZE + lab.column
+            if lab.x != check:
+                return
+        #lbl = tkinter.Label(main_window, text = 'YOU WIN!', font=('Sarif', 50))
+        # for lab in labels_list:
+        #     lab.grid(row=-SIZE, column=-SIZE)
+        #lbl.grid(row=0, column=0)
+        messagebox.showinfo('WIN', 'YOU WIN!')
 
 main_window.bind('<Up>', lambda x: keyPress('u'))
 main_window.bind('<Down>', lambda x: keyPress('d'))
 main_window.bind('<Left>', lambda x: keyPress('l'))
 main_window.bind('<Right>', lambda x: keyPress('r'))
 
+def mixit():
+    actions = ['u','d','l','r']
+    for i in range(50):
+        to_do = random.sample(actions, 1)
+        keyPress(to_do[0])
+
+mixit()
 main_window.mainloop()
